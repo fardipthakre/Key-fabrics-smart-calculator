@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.12.0/math.min.js"></script>
     <style>
+        /* ===== SAME STYLES AS YOUR EXISTING FILE ===== */
         *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
         :root{
             --bg:#0a0e1a;--surface:#111827;--card:#151d2e;--card-alt:#1a2540;
@@ -52,7 +53,7 @@
             font-weight:800;
             letter-spacing:2px;
             color:var(--gold);
-            white-space: nowrap; /* force single line */
+            white-space: nowrap;
         }
         .brand span{
             color:var(--text);
@@ -237,6 +238,76 @@
             display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
         }
 
+        /* Chatbot Styles */
+        .chat-messages {
+            background: var(--input); border-radius: var(--radius-sm);
+            padding: 15px; height: 300px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 12px;
+            border: 1px solid var(--border); margin-bottom: 15px;
+        }
+        .chat-message {
+            display: flex; flex-direction: column;
+            max-width: 95%;
+        }
+        .chat-message.user {
+            align-self: flex-end;
+        }
+        .chat-message.bot {
+            align-self: flex-start;
+        }
+        .message-bubble {
+            padding: 10px 14px; border-radius: 18px;
+            font-size: 0.95rem; line-height: 1.5; word-wrap: break-word;
+            white-space: pre-line;
+        }
+        .user .message-bubble {
+            background: var(--accent); color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .bot .message-bubble {
+            background: var(--card-alt); color: var(--text);
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        .message-time {
+            font-size: 0.65rem; color: var(--text-dim);
+            margin: 4px 8px 0;
+        }
+        .chat-input-area {
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .chat-select {
+            width: 100%;
+            padding: 12px;
+            background: var(--input);
+            border: 1px solid var(--border);
+            color: var(--white);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .chat-select option {
+            background: var(--surface);
+            color: var(--text);
+        }
+        .chat-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 3px 0 rgba(0,0,0,.2);
+        }
+        .chat-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(0,0,0,.2);
+        }
+
         /* Responsive */
         @media(max-width:380px){
             .calc-btn{padding:13px 0;font-size:1.1rem}
@@ -246,7 +317,7 @@
 </head>
 <body>
 
-<!-- HEADER with Hamburger (Brand: FARDIP THAKRE single line) -->
+<!-- HEADER -->
 <header class="header">
     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
         <div class="brand">
@@ -258,7 +329,7 @@
     <div class="tagline">Smart Business Calculator & Utilities</div>
 </header>
 
-<!-- SIDE MENU (with History option) -->
+<!-- SIDE MENU -->
 <div class="side-menu" id="sideMenu">
     <div class="side-menu-header">
         <span>MENU</span>
@@ -271,6 +342,7 @@
         <button class="menu-item" data-page="emi">💰 EMI Calculator</button>
         <button class="menu-item" data-page="bmi">⚖️ BMI Calculator</button>
         <button class="menu-item" data-page="age">📅 Age Calculator</button>
+        <button class="menu-item" data-page="ai">🤖 Ask with Fardip</button>
         <div class="menu-divider"></div>
         <div class="menu-subtitle">Theme</div>
         <div class="theme-options">
@@ -449,7 +521,7 @@
         </div>
     </div>
 
-    <!-- ========== FABRIC MASTER PAGE (with 3 calculators) ========== -->
+    <!-- ========== FABRIC MASTER PAGE ========== -->
     <div class="page" id="page-fabric">
         <!-- Fabric Table -->
         <div class="form-card">
@@ -469,7 +541,7 @@
             </div>
         </div>
 
-        <!-- GSM Calculator (Original) -->
+        <!-- GSM Calculator -->
         <div class="form-card">
             <div class="form-title">
                 <div class="icon" style="background:var(--accent-glow);color:var(--accent)">📏</div>
@@ -489,7 +561,7 @@
             </div>
         </div>
 
-        <!-- Meter Calculator (GSM + Width + Weight → Length in meters) -->
+        <!-- Meter Calculator -->
         <div class="form-card">
             <div class="form-title">
                 <div class="icon" style="background:rgba(34,197,94,.2);color:var(--success)">📏</div>
@@ -509,7 +581,7 @@
             </div>
         </div>
 
-        <!-- Weight Calculator (GSM + Length + Width → Weight in grams) -->
+        <!-- Weight Calculator -->
         <div class="form-card">
             <div class="form-title">
                 <div class="icon" style="background:rgba(245,158,11,.2);color:var(--gold)">⚖️</div>
@@ -529,7 +601,7 @@
             </div>
         </div>
 
-        <!-- Fabric Requirement (existing) -->
+        <!-- Fabric Requirement -->
         <div class="form-card">
             <div class="form-title">
                 <div class="icon" style="background:rgba(245,158,11,.2);color:var(--gold)">&#9878;</div>
@@ -655,9 +727,147 @@
         </div>
     </div>
 
+    <!-- ========== AI CHATBOT PAGE ========== -->
+    <div class="page" id="page-ai">
+        <div class="form-card">
+            <div class="form-title">
+                <div class="icon" style="background:linear-gradient(145deg,#4285f4,#34a853);color:white">🤖</div>
+                Ask with Fardip
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    <div class="message-bubble">नमस्ते! नीचे दिए गए विकल्पों में से कोई भी प्रश्न चुनें। मैं आपको विस्तृत जानकारी दूंगा।</div>
+                    <div class="message-time">अभी</div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <select class="chat-select" id="questionSelect">
+                    <option value="">-- कृपया एक प्रश्न चुनें --</option>
+                    <!-- SIP Questions -->
+                    <optgroup label="📈 SIP कैलकुलेटर">
+                        <option value="sip_kya">📈 SIP क्या है?</option>
+                        <option value="sip_formula">📐 SIP का फॉर्मूला क्या है?</option>
+                        <option value="sip_example">📊 SIP का उदाहरण दीजिए</option>
+                        <option value="sip_benefits">💡 SIP के क्या फायदे हैं?</option>
+                        <option value="sip_vs_lumpsum">⚖️ SIP और लम्पसम में क्या अंतर है?</option>
+                        <option value="sip_stepup">🔝 स्टेप-अप SIP क्या है?</option>
+                        <option value="sip_tax">💰 SIP पर टैक्स कैसे लगता है?</option>
+                        <option value="sip_risk">⚠️ SIP में कितना जोखिम है?</option>
+                        <option value="sip_how_to_start">📝 SIP कैसे शुरू करें?</option>
+                        <option value="sip_best_for">🎯 SIP किसके लिए सबसे अच्छा है?</option>
+                    </optgroup>
+                    
+                    <!-- EMI Questions -->
+                    <optgroup label="💰 EMI कैलकुलेटर">
+                        <option value="emi_kya">💰 EMI क्या है?</option>
+                        <option value="emi_formula">📐 EMI का फॉर्मूला क्या है?</option>
+                        <option value="emi_example">📊 EMI का उदाहरण दीजिए</option>
+                        <option value="emi_calculation">🧮 EMI कैसे कैलकुलेट करें?</option>
+                        <option value="emi_amortization">📊 अमोर्टाइजेशन क्या है?</option>
+                        <option value="emi_interest_principal">💵 EMI में ब्याज और मूलधन का हिस्सा कैसे बदलता है?</option>
+                        <option value="emi_prepayment">💰 प्रीपेमेंट करने से क्या फायदा?</option>
+                        <option value="emi_loan_tenure">📅 लोन टेन्योर क्या है?</option>
+                        <option value="emi_flat_vs_reducing">⚖️ फ्लैट ब्याज और रिड्यूसिंग ब्याज में अंतर</option>
+                    </optgroup>
+                    
+                    <!-- BMI Questions -->
+                    <optgroup label="⚖️ BMI कैलकुलेटर">
+                        <option value="bmi_kya">⚖️ BMI क्या है?</option>
+                        <option value="bmi_formula">📐 BMI का फॉर्मूला क्या है?</option>
+                        <option value="bmi_range">📊 BMI श्रेणियाँ क्या हैं?</option>
+                        <option value="bmi_example">📊 BMI का उदाहरण दीजिए</option>
+                        <option value="bmi_healthy">💪 हेल्दी BMI कितना होता है?</option>
+                        <option value="bmi_underweight">⚠️ कम वजन (Underweight) क्या है?</option>
+                        <option value="bmi_overweight">⚠️ अधिक वजन (Overweight) क्या है?</option>
+                        <option value="bmi_obese">⚠️ मोटापा (Obese) क्या है?</option>
+                        <option value="bmi_children">👶 बच्चों का BMI कैसे निकालें?</option>
+                    </optgroup>
+                    
+                    <!-- Age Calculator Questions -->
+                    <optgroup label="📅 आयु कैलकुलेटर">
+                        <option value="age_kya">📅 आयु कैलकुलेटर क्या है?</option>
+                        <option value="age_example">📊 आयु गणना का उदाहरण दीजिए</option>
+                        <option value="age_accuracy">🎯 आयु कैलकुलेटर कितना सटीक है?</option>
+                        <option value="age_total_days">📊 कुल दिनों की गणना कैसे करें?</option>
+                        <option value="age_future_date">🔮 भविष्य की किसी तारीख पर आयु कैसे निकालें?</option>
+                    </optgroup>
+                    
+                    <!-- Fabric Master Questions -->
+                    <optgroup label="📏 फैब्रिक मास्टर">
+                        <option value="fabric_gsm_kya">📏 GSM क्या है?</option>
+                        <option value="fabric_gsm_range">📊 GSM रेंज और उपयोग क्या है?</option>
+                        <option value="fabric_meter_calc">📏 मीटर कैलकुलेटर कैसे use करें?</option>
+                        <option value="fabric_weight_calc">⚖️ वेट कैलकुलेटर कैसे use करें?</option>
+                        <option value="fabric_requirement">📋 फैब्रिक रिक्वायरमेंट टेबल क्या है?</option>
+                        <option value="fabric_sofa_cover">🛋️ सोफा कवर के लिए कितना कपड़ा चाहिए?</option>
+                        <option value="fabric_bedsheet">🛏️ बेडशीट के लिए कितना कपड़ा चाहिए?</option>
+                        <option value="fabric_curtain">🪟 पर्दे के लिए कितना कपड़ा चाहिए?</option>
+                        <option value="fabric_width_effect">📏 कपड़े की चौड़ाई का क्या असर होता है?</option>
+                        <option value="fabric_cotton_gsm">🌿 कॉटन का GSM कितना होता है?</option>
+                        <option value="fabric_silk_gsm">✨ सिल्क का GSM कितना होता है?</option>
+                        <option value="fabric_denim_gsm">👖 डेनिम का GSM कितना होता है?</option>
+                    </optgroup>
+                    
+                    <!-- Foam Calculator Questions -->
+                    <optgroup label="📦 फोम कैलकुलेटर">
+                        <option value="foam_density_kya">📦 फोम डेंसिटी क्या है?</option>
+                        <option value="foam_density_formula">📐 फोम डेंसिटी का फॉर्मूला क्या है?</option>
+                        <option value="foam_density_range">📊 डेंसिटी रेंज और उपयोग क्या है?</option>
+                        <option value="foam_compare">⚖️ फोम कंपेयर कैसे करें?</option>
+                        <option value="foam_mattress">🛏️ गद्दे के लिए कितनी डेंसिटी सही है?</option>
+                        <option value="foam_cushion">🛋️ कुशन के लिए कितनी डेंसिटी सही है?</option>
+                        <option value="foam_sofa">🪑 सोफे के लिए कितनी डेंसिटी सही है?</option>
+                        <option value="foam_car_seat">🚗 कार सीट के लिए कितनी डेंसिटी सही है?</option>
+                        <option value="foam_quality">💡 फोम की गुणवत्ता कैसे पहचानें?</option>
+                    </optgroup>
+                    
+                    <!-- Unit Converter Questions -->
+                    <optgroup label="🔄 यूनिट कन्वर्टर">
+                        <option value="unit_converter_kya">🔄 यूनिट कन्वर्टर क्या है?</option>
+                        <option value="unit_length">📏 लंबाई रूपांतरण (मीटर, फीट, इंच)</option>
+                        <option value="unit_weight">⚖️ वजन रूपांतरण (किलो, पाउंड)</option>
+                        <option value="unit_temperature">🌡️ तापमान रूपांतरण (सेल्सियस, फ़ारेनहाइट)</option>
+                        <option value="unit_volume">🧪 आयतन रूपांतरण (लीटर, गैलन)</option>
+                        <option value="unit_fabric">📏 फैब्रिक यूनिट रूपांतरण (मीटर, गज)</option>
+                        <option value="unit_meter_to_feet">📏 1 मीटर में कितने फीट होते हैं?</option>
+                        <option value="unit_feet_to_meter">📏 1 फीट में कितने मीटर होते हैं?</option>
+                        <option value="unit_inch_to_cm">📏 1 इंच में कितने सेंटीमीटर होते हैं?</option>
+                        <option value="unit_kg_to_pound">⚖️ 1 किलो में कितने पाउंड होते हैं?</option>
+                        <option value="unit_celsius_to_fahrenheit">🌡️ सेल्सियस को फ़ारेनहाइट में कैसे बदलें?</option>
+                    </optgroup>
+                    
+                    <!-- Scientific Calculator Questions -->
+                    <optgroup label="🧮 वैज्ञानिक कैलकुलेटर">
+                        <option value="sci_trig">🧮 त्रिकोणमिति फलन (sin, cos, tan) क्या हैं?</option>
+                        <option value="sci_log">📐 लघुगणक (log, ln) क्या हैं?</option>
+                        <option value="sci_power">🔢 घातांक (x^y, √, ∛) क्या हैं?</option>
+                        <option value="sci_constants">π, e (गणितीय स्थिरांक) क्या हैं?</option>
+                        <option value="sci_factorial">! (फैक्टोरियल) क्या है?</option>
+                        <option value="sci_abs">|x| (एब्सोल्यूट वैल्यू) क्या है?</option>
+                    </optgroup>
+                    
+                    <!-- App Features Questions -->
+                    <optgroup label="⚙️ ऐप फीचर्स">
+                        <option value="app_theme">🎨 थीम कैसे बदलें?</option>
+                        <option value="app_sound">🔊 क्लिक साउंड कैसे बदलें?</option>
+                        <option value="app_history">📜 हिस्ट्री एक्सपोर्ट कैसे करें?</option>
+                        <option value="app_contact">📞 संपर्क जानकारी क्या है?</option>
+                        <option value="app_features">🤖 ऐप में कौन-कौन से कैलकुलेटर हैं?</option>
+                        <option value="app_share">📤 ऐप कैसे शेयर करें?</option>
+                        <option value="app_rate">⭐ ऐप को रेट कैसे करें?</option>
+                    </optgroup>
+                </select>
+                <button class="chat-button" onclick="askSelectedQuestion()">प्रश्न पूछें ➤</button>
+            </div>
+            <div style="font-size:0.7rem; color:var(--text-dim); text-align:center; margin-top:10px;">
+                📚 100+ विशेषज्ञ प्रश्न • तुरंत उत्तर • बिना इंटरनेट के
+            </div>
+        </div>
+    </div>
+
 </div> <!-- main close -->
 
-<!-- Social Footer (Robust Icons from Simple Icons CDN) -->
+<!-- Social Footer -->
 <div style="display: flex; flex-direction: column; align-items: center; background: transparent; padding: 10px 0; gap: 8px; margin-bottom: 5px;">
     <div style="display: flex; gap: 20px; align-items: center;">
         <a href="https://facebook.com/fardip.thakre" target="_blank"><img src="https://cdn.simpleicons.org/facebook" width="24" height="24" style="filter: none !important;" alt="Facebook"></a>
@@ -676,7 +886,7 @@
     <button class="tab-item" data-page="fabric"><div class="tab-icon">&#9733;</div><div class="tab-label">Fabric</div></button>
 </nav>
 
-<!-- CONTACT MODAL (with Simple Icons) -->
+<!-- CONTACT MODAL -->
 <div class="modal" id="contactModal">
     <div class="modal-content">
         <span class="close-modal" id="closeModal">&times;</span>
@@ -693,11 +903,11 @@
     </div>
 </div>
 
-<!-- SCRIPTS (unchanged, same as previous working version) -->
+<!-- SCRIPTS -->
 <script>
-// ========== ORIGINAL SCRIPT (IIFE) with modifications ==========
+// ========== ORIGINAL CALCULATOR FUNCTIONS ==========
 (function(){
-    // ========== TAB NAVIGATION ==========
+    // Tab Navigation
     const tabs = document.querySelectorAll('.tab-item');
     const pages = document.querySelectorAll('.page');
     tabs.forEach(tab => {
@@ -710,7 +920,7 @@
         });
     });
 
-    // ========== CALCULATOR ==========
+    // Calculator
     const exprEl = document.getElementById('calcExpr');
     const resEl = document.getElementById('calcResult');
     let expr = '';
@@ -816,7 +1026,7 @@
         }
     };
 
-    // ========== UNIT CONVERTER ==========
+    // Unit Converter
     const unitData = {
         length: { units: ['Meter','CM','MM','KM','Inch','Feet','Yard','Mile'], factors: {Meter:1,CM:0.01,MM:0.001,KM:1000,Inch:0.0254,Feet:0.3048,Yard:0.9144,Mile:1609.344} },
         mass: { units: ['KG','Gram','MG','Pound','Ounce','Ton','Quintal'], factors: {KG:1,Gram:0.001,MG:0.000001,Pound:0.453592,Ounce:0.0283495,Ton:1000,Quintal:100} },
@@ -871,7 +1081,7 @@
         document.getElementById('convResult').style.display = 'block';
     };
 
-    // ========== FOAM DENSITY ==========
+    // Foam Density
     window.calcFoamDensity = function(){
         const w = parseFloat(document.getElementById('foamWeight').value);
         const l = parseFloat(document.getElementById('foamLength').value);
@@ -902,7 +1112,7 @@
         document.getElementById('foamResult').style.display = 'block';
     };
 
-    // ========== FABRIC MASTER ==========
+    // Fabric Master
     const fabricData = [
         {name:'Cotton',gsm:'100-200',width:'44-60"',use:'Shirts, Bedsheets'},
         {name:'Polyester',gsm:'75-250',width:'44-60"',use:'Curtains, Lining'},
@@ -941,7 +1151,7 @@
         renderFabrics(filtered);
     };
 
-    // GSM Calculator (Original)
+    // GSM Calculator
     window.calcGSM = function(){
         const w = parseFloat(document.getElementById('gsmWeight').value);
         const l = parseFloat(document.getElementById('gsmLength').value);
@@ -968,11 +1178,11 @@
         document.getElementById('gsmResult').style.display = 'block';
     };
 
-    // Meter Calculator (GSM + Width + Weight -> Length in meters)
+    // Meter Calculator
     window.calcMeter = function(){
         const gsm = parseFloat(document.getElementById('meterGSM').value);
         const wd = parseFloat(document.getElementById('meterWidth').value);
-        const wt = parseFloat(document.getElementById('meterWeight').value); // in kg
+        const wt = parseFloat(document.getElementById('meterWeight').value);
         if(isNaN(gsm) || isNaN(wd) || isNaN(wt) || gsm<=0 || wd<=0 || wt<=0){
             alert('Please fill all fields with positive numbers');
             return;
@@ -986,7 +1196,7 @@
         document.getElementById('meterResult').style.display = 'block';
     };
 
-    // Weight Calculator (GSM + Length + Width -> Weight in grams)
+    // Weight Calculator
     window.calcWeight = function(){
         const gsm = parseFloat(document.getElementById('weightGSM').value);
         const len = parseFloat(document.getElementById('weightLength').value);
@@ -1003,7 +1213,7 @@
         document.getElementById('weightResult').style.display = 'block';
     };
 
-    // Fabric Requirement Calculator
+    // Fabric Requirement
     const fabricReqs = {
         sofa_3seat: {name:'3-Seater Sofa Cover', meters:{44:14,54:12,60:10,72:9,90:7.5,108:6.5}},
         sofa_2seat: {name:'2-Seater Sofa Cover', meters:{44:10,54:8.5,60:7.5,72:6.5,90:5.5,108:4.5}},
@@ -1034,7 +1244,7 @@
         document.getElementById('fabricReqResult').style.display = 'block';
     };
 
-    // Keyboard support for calculator
+    // Keyboard support
     document.addEventListener('keydown', function(e){
         const activePage = document.querySelector('.page.active');
         if(!activePage || activePage.id !== 'page-calc') return;
@@ -1082,7 +1292,7 @@
 })();
 </script>
 
-<!-- SECOND SCRIPT: HAMBURGER MENU, THEME, SOUND, NEW CALCULATORS, CONTACT -->
+<!-- SECOND SCRIPT: HAMBURGER MENU, THEME, SOUND, CONTACT -->
 <script>
 // ========== SIDE MENU TOGGLE ==========
 const menuToggle = document.getElementById('menuToggle');
@@ -1361,6 +1571,164 @@ if('serviceWorker' in navigator){
     window.addEventListener('load', function(){
         navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed:', err));
     });
+}
+
+// ========== CHATBOT ANSWER HANDLER ==========
+const chatMessages = document.getElementById('chatMessages');
+const questionSelect = document.getElementById('questionSelect');
+
+window.askSelectedQuestion = function() {
+    const selectedValue = questionSelect.value;
+    if (!selectedValue) {
+        alert('कृपया एक प्रश्न चुनें!');
+        return;
+    }
+    
+    // Get the selected option text
+    const selectedText = questionSelect.options[questionSelect.selectedIndex].text;
+    
+    // Add user message
+    addChatMessage(selectedText, 'user');
+    
+    // Show typing indicator
+    const typingId = showChatTyping();
+    
+    // Get answer based on selection
+    setTimeout(() => {
+        const answer = generateAnswer(selectedValue);
+        removeChatTyping(typingId);
+        addChatMessage(answer, 'bot');
+    }, 600);
+};
+
+function addChatMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `chat-message ${sender}`;
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    msgDiv.innerHTML = `
+        <div class="message-bubble">${text}</div>
+        <div class="message-time">${time}</div>
+    `;
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showChatTyping() {
+    const id = 'typing-' + Date.now();
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'chat-message bot';
+    typingDiv.id = id;
+    typingDiv.innerHTML = `<div class="message-bubble">टाइपिंग...</div>`;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return id;
+}
+
+function removeChatTyping(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+}
+
+function generateAnswer(key) {
+    const answers = {
+        // SIP Answers
+        'sip_kya': '📈 **SIP (सिस्टमैटिक इन्वेस्टमेंट प्लान)** एक निवेश योजना है जिसमें आप हर महीने एक निश्चित राशि म्यूचुअल फंड में निवेश करते हैं। इससे आपको रुपया कॉस्ट एवरेजिंग और कंपाउंडिंग का लाभ मिलता है।',
+        'sip_formula': '📐 **SIP फॉर्मूला:** M = P × ((1 + r)^n - 1) / r × (1 + r)\n\nजहाँ:\nM = परिपक्वता राशि\nP = मासिक निवेश\nr = मासिक ब्याज दर (वार्षिक/12)\nn = कुल महीने',
+        'sip_example': '📊 **SIP उदाहरण:** ₹5000/माह, 12% वार्षिक, 10 साल\nकुल निवेश: ₹6,00,000\nअनुमानित रिटर्न: ₹5,60,000\nपरिपक्वता राशि: ₹11,60,000',
+        'sip_benefits': '💡 **SIP के फायदे:**\n• छोटी रकम से शुरुआत\n• रुपया कॉस्ट एवरेजिंग\n• कंपाउंडिंग का लाभ\n• अनुशासित निवेश की आदत\n• लंबी अवधि में बड़ा कोष',
+        'sip_vs_lumpsum': '⚖️ **SIP और लम्पसम में अंतर:**\nSIP में धीरे-धीरे निवेश होता है, जोखिम कम। लम्पसम में एक साथ पूरी रकम निवेश होती है, ज्यादा रिटर्न की संभावना लेकिन ज्यादा जोखिम।',
+        'sip_stepup': '🔝 **स्टेप-अप SIP** में आप हर साल अपनी SIP रकम बढ़ा सकते हैं (जैसे 10% सालाना)। इससे लंबी अवधि में काफी बड़ा कोष बनता है।',
+        'sip_tax': '💰 **SIP पर टैक्स:** इक्विटी SIP पर LTCG टैक्स ₹1 लाख से अधिक के लाभ पर 10% लगता है। डेट SIP पर इंडेक्सेशन के साथ टैक्स लगता है।',
+        'sip_risk': '⚠️ **SIP में जोखिम:** SIP में जोखिम बाजार के उतार-चढ़ाव पर निर्भर करता है। लंबी अवधि में जोखिम कम हो जाता है।',
+        'sip_how_to_start': '📝 **SIP कैसे शुरू करें:**\n1. पैन कार्ड और बैंक खाता रखें\n2. KYC पूरा करें\n3. म्यूचुअल फंड चुनें\n4. ऑनलाइन आवेदन करें',
+        'sip_best_for': '🎯 **SIP किसके लिए सबसे अच्छा है:** नियमित आय वाले लोग, लंबी अवधि के निवेशक, रिटायरमेंट प्लानिंग करने वाले, बच्चों की पढ़ाई के लिए बचत करने वाले।',
+        
+        // EMI Answers
+        'emi_kya': '💰 **EMI (एक्वेटेड मंथली इंस्टॉलमेंट)** वह मासिक किस्त है जो आप बैंक को ऋण चुकाने के लिए देते हैं। इसमें मूलधन और ब्याज दोनों शामिल होते हैं।',
+        'emi_formula': '📐 **EMI फॉर्मूला:** EMI = [P × r × (1+r)^n] / [(1+r)^n - 1]\n\nजहाँ:\nP = ऋण राशि\nr = मासिक ब्याज दर (वार्षिक/12)\nn = महीनों की संख्या',
+        'emi_example': '📊 **EMI उदाहरण:** ₹5,00,000 ऋण, 9.5% ब्याज, 5 साल (60 महीने)\nमासिक EMI: ₹10,500\nकुल ब्याज: ₹1,30,000\nकुल भुगतान: ₹6,30,000',
+        'emi_calculation': '🧮 **EMI कैलकुलेशन:** EMI = [P × r × (1+r)^n] / [(1+r)^n - 1]\nहमारा EMI कैलकुलेटर यह फॉर्मूला अपने आप लगा देता है।',
+        'emi_amortization': '📊 **अमोर्टाइजेशन** एक तालिका है जो दिखाती है कि हर EMI में से कितना मूलधन और कितना ब्याज जाता है। शुरू में ब्याज हिस्सा ज्यादा होता है, धीरे-धीरे मूलधन हिस्सा बढ़ता है।',
+        'emi_interest_principal': '💵 **EMI में ब्याज और मूलधन:** शुरू के महीनों में ब्याज का हिस्सा ज्यादा होता है। आखिरी महीनों में मूलधन का हिस्सा ज्यादा होता है।',
+        'emi_prepayment': '💰 **प्रीपेमेंट करने से फायदा:** प्रीपेमेंट से ब्याज का बोझ कम होता है और ऋण जल्दी खत्म होता है।',
+        'emi_loan_tenure': '📅 **लोन टेन्योर** वह अवधि है जिसमें आप ऋण चुकाते हैं। लंबी टेन्योर से EMI कम होती है लेकिन कुल ब्याज ज्यादा लगता है।',
+        'emi_flat_vs_reducing': '⚖️ **फ्लैट ब्याज** में पूरी अवधि के लिए मूलधन पर ब्याज लगता है। **रिड्यूसिंग ब्याज** में शेष मूलधन पर ब्याज लगता है, जो सस्ता होता है।',
+        
+        // BMI Answers
+        'bmi_kya': '⚖️ **BMI (बॉडी मास इंडेक्स)** आपके शरीर में वसा का माप है। यह वजन और ऊंचाई के अनुपात से निकाला जाता है।',
+        'bmi_formula': '📐 **BMI फॉर्मूला:** BMI = वजन (kg) / (ऊंचाई (m))²\n\nउदाहरण: वजन 70kg, ऊंचाई 1.7m\nBMI = 70 / (1.7×1.7) = 24.2',
+        'bmi_range': '📊 **BMI श्रेणियाँ:**\n• कम वजन: < 18.5\n• सामान्य: 18.5 – 24.9\n• अधिक वजन: 25 – 29.9\n• मोटापा: ≥ 30',
+        'bmi_example': '📊 **BMI उदाहरण:**\n1.7m ऊंचाई, 50kg वजन → BMI 17.3 (कम वजन)\n1.7m ऊंचाई, 65kg वजन → BMI 22.5 (सामान्य)\n1.7m ऊंचाई, 80kg वजन → BMI 27.7 (अधिक वजन)',
+        'bmi_healthy': '💪 **हेल्दी BMI:** 18.5 से 24.9 के बीच। यह दर्शाता है कि आपका वजन आपकी ऊंचाई के अनुपात में सही है।',
+        'bmi_underweight': '⚠️ **कम वजन (Underweight):** BMI < 18.5। इससे कुपोषण, कमजोरी और रोग प्रतिरोधक क्षमता कम हो सकती है।',
+        'bmi_overweight': '⚠️ **अधिक वजन (Overweight):** BMI 25-29.9। इससे डायबिटीज, हृदय रोग का खतरा बढ़ सकता है।',
+        'bmi_obese': '⚠️ **मोटापा (Obese):** BMI ≥ 30। इससे गंभीर स्वास्थ्य समस्याएं हो सकती हैं। डॉक्टर से सलाह लें।',
+        'bmi_children': '👶 **बच्चों का BMI:** बच्चों के लिए BMI उम्र और लिंग के अनुसार percentile में मापा जाता है। हमारा कैलकुलेटर वयस्कों के लिए है।',
+        
+        // Age Calculator Answers
+        'age_kya': '📅 **आयु कैलकुलेटर** आपकी सही आयु वर्ष, महीने और दिनों में निकालता है। यह जन्म तिथि और किसी अन्य तिथि के बीच अंतर बताता है।',
+        'age_example': '📊 **आयु गणना उदाहरण:**\nजन्म: 15 अगस्त 1995\nआज: 6 मार्च 2026\nआयु: 30 वर्ष, 6 महीने, 19 दिन\nकुल दिन: 11,150 दिन',
+        'age_accuracy': '🎯 **आयु कैलकुलेटर** बिल्कुल सटीक है। यह लीप ईयर और महीनों के अलग-अलग दिनों का ध्यान रखता है।',
+        'age_total_days': '📊 **कुल दिनों की गणना:** जन्म तिथि से आज तक के कुल दिन। यह उम्र का सटीक माप है।',
+        'age_future_date': '🔮 **भविष्य की तारीख पर आयु:** "As on Date" में भविष्य की कोई तारीख डालें। कैलकुलेटर उस दिन आपकी आयु बता देगा।',
+        
+        // Fabric Answers
+        'fabric_gsm_kya': '📏 **GSM (ग्राम प्रति वर्ग मीटर)** कपड़े की मोटाई और गुणवत्ता का माप है। जितना ज्यादा GSM, उतना ही मोटा और भारी कपड़ा।',
+        'fabric_gsm_range': '📊 **GSM रेंज और उपयोग:**\n• <80: वॉयल, शिफॉन (साड़ी, दुपट्टा)\n• 80-150: शर्ट, ड्रेस\n• 150-250: कुर्ता, बेडशीट\n• 250-400: डेनिम, कैनवास (जींस, बैग)\n• >400: असबाब, पर्दे',
+        'fabric_meter_calc': '📏 **मीटर कैलकुलेटर** सूत्र: लंबाई (मी) = [वजन (kg) × 1000] / [GSM × चौड़ाई (मी)]\nउदाहरण: GSM 150, चौड़ाई 150cm, वजन 5kg → लंबाई = 22.22 मी',
+        'fabric_weight_calc': '⚖️ **वेट कैलकुलेटर** सूत्र: वजन (g) = GSM × लंबाई (मी) × चौड़ाई (मी)\nउदाहरण: GSM 150, लंबाई 10मी, चौड़ाई 150cm → वजन = 2250g (2.25kg)',
+        'fabric_requirement': '📋 **फैब्रिक रिक्वायरमेंट (54" चौड़ाई):**\n• 3-सीटर सोफा कवर: 12 मी\n• 2-सीटर सोफा कवर: 8.5 मी\n• कुर्सी कवर: 3 मी\n• कुशन कवर: 0.5 मी\n• पर्दा: 4.5 मी\n• सिंगल बेडशीट: 4.5 मी\n• डबल बेडशीट: 6.5 मी\n• तकिया कवर: 0.55 मी',
+        'fabric_sofa_cover': '🛋️ **सोफा कवर के लिए कपड़ा:**\n3-सीटर: 12 मीटर (54" चौड़ाई)\n2-सीटर: 8.5 मीटर (54" चौड़ाई)',
+        'fabric_bedsheet': '🛏️ **बेडशीट के लिए कपड़ा:**\nसिंगल: 4.5 मीटर\nडबल: 6.5 मीटर (54" चौड़ाई)',
+        'fabric_curtain': '🪟 **पर्दे के लिए कपड़ा:** एक खिड़की के लिए 4.5 मीटर (54" चौड़ाई)',
+        'fabric_width_effect': '📏 **कपड़े की चौड़ाई का असर:** चौड़ाई जितनी ज्यादा, उतना ही कम मीटर लगता है। उदाहरण: 3-सीटर कवर के लिए 44" पर 14 मी, 54" पर 12 मी, 60" पर 10 मी लगता है।',
+        'fabric_cotton_gsm': '🌿 **कॉटन का GSM:** 100-200 के बीच। हल्के कॉटन 100-150, मोटे कॉटन 150-200।',
+        'fabric_silk_gsm': '✨ **सिल्क का GSM:** 30-120 के बीच। हल्की सिल्क 30-70, भारी सिल्क 70-120।',
+        'fabric_denim_gsm': '👖 **डेनिम का GSM:** 200-400 के बीच। हल्का डेनिम 200-300, भारी डेनिम 300-400।',
+        
+        // Foam Answers
+        'foam_density_kya': '📦 **फोम डेंसिटी** फोम की गुणवत्ता और मजबूती का माप है। इसे kg/m³ में मापा जाता है। डेंसिटी = वजन (kg) / आयतन (m³)',
+        'foam_density_formula': '📐 **फोम डेंसिटी फॉर्मूला:** डेंसिटी (kg/m³) = वजन (kg) / (लंबाई(m) × चौड़ाई(m) × मोटाई(m))',
+        'foam_density_range': '📊 **डेंसिटी रेंज:**\n• नरम (16-24): गद्दे\n• मध्यम (24-35): कुशन\n• मजबूत (35-50): सोफा\n• उच्च (50-80): ऑटो सीट\n• रीबॉन्डेड (80-150): फर्शिंग',
+        'foam_compare': '⚖️ **फोम कंपेयर:** लंबाई, चौड़ाई, डेंसिटी डालें। फिर लोकल और ब्रांडेड रेट डालें। यह बताएगा कि प्रति मिमी में कौन सा सस्ता है।',
+        'foam_mattress': '🛏️ **गद्दे के लिए डेंसिटी:** 16-35 kg/m³। नरम गद्दे के लिए 16-24, मध्यम के लिए 24-35।',
+        'foam_cushion': '🛋️ **कुशन के लिए डेंसिटी:** 24-35 kg/m³। यह आरामदायक और टिकाऊ होता है।',
+        'foam_sofa': '🪑 **सोफे के लिए डेंसिटी:** 35-50 kg/m³। यह मजबूत और लंबे समय तक चलने वाला होता है।',
+        'foam_car_seat': '🚗 **कार सीट के लिए डेंसिटी:** 50-80 kg/m³। यह उच्च घनत्व वाला फोम होता है जो ज्यादा टिकाऊ होता है।',
+        'foam_quality': '💡 **फोम की गुणवत्ता:** अच्छे फोम में डेंसिटी ज्यादा होती है। दबाने पर तुरंत वापस आ जाता है। पीला नहीं पड़ता।',
+        
+        // Unit Converter Answers
+        'unit_converter_kya': '🔄 **यूनिट कन्वर्टर** लंबाई, वजन, आयतन, फैब्रिक और तापमान की इकाइयों को परिवर्तित करता है।',
+        'unit_length': '📏 **लंबाई रूपांतरण:**\n1 मीटर = 3.28 फीट\n1 फीट = 30.48 सेमी\n1 इंच = 2.54 सेमी\n1 गज = 0.9144 मीटर\n1 मील = 1.609 किमी',
+        'unit_weight': '⚖️ **वजन रूपांतरण:**\n1 किग्रा = 2.2046 पाउंड\n1 पाउंड = 453.6 ग्राम\n1 औंस = 28.35 ग्राम\n1 क्विंटल = 100 किग्रा\n1 टन = 1000 किग्रा',
+        'unit_temperature': '🌡️ **तापमान रूपांतरण:**\nसेल्सियस से फ़ारेनहाइट: (°C × 9/5) + 32\nफ़ारेनहाइट से सेल्सियस: (°F - 32) × 5/9\nसेल्सियस से केल्विन: °C + 273.15',
+        'unit_volume': '🧪 **आयतन रूपांतरण:**\n1 लीटर = 1000 मिलीलीटर\n1 गैलन = 3.785 लीटर\n1 क्वार्ट = 0.946 लीटर\n1 पिंट = 0.473 लीटर',
+        'unit_fabric': '📏 **फैब्रिक यूनिट:**\n1 मीटर = 1.0936 गज\n1 गज = 0.9144 मीटर\n1 फीट = 0.3048 मीटर',
+        'unit_meter_to_feet': '📏 1 मीटर = 3.28084 फीट। मीटर को फीट में बदलने के लिए 3.28 से गुणा करें।',
+        'unit_feet_to_meter': '📏 1 फीट = 0.3048 मीटर। फीट को मीटर में बदलने के लिए 0.3048 से गुणा करें।',
+        'unit_inch_to_cm': '📏 1 इंच = 2.54 सेंटीमीटर। इंच को सेंटीमीटर में बदलने के लिए 2.54 से गुणा करें।',
+        'unit_kg_to_pound': '⚖️ 1 किलोग्राम = 2.20462 पाउंड। किलो को पाउंड में बदलने के लिए 2.2046 से गुणा करें।',
+        'unit_celsius_to_fahrenheit': '🌡️ °F = (°C × 9/5) + 32। उदाहरण: 25°C = (25 × 9/5) + 32 = 77°F',
+        
+        // Scientific Calculator Answers
+        'sci_trig': '🧮 **त्रिकोणमिति फलन:**\nsin(θ) - ज्या\ncos(θ) - कोज्या\ntan(θ) - स्पर्शज्या\nकोण θ डिग्री में। उदाहरण: sin(30°) = 0.5',
+        'sci_log': '📐 **लघुगणक:**\nlog(x) - आधार 10 लघुगणक\nln(x) - प्राकृतिक लघुगणक\nउदाहरण: log(100) = 2, ln(e) = 1',
+        'sci_power': '🔢 **घातांक:**\nx^y - x की घात y\n√x - वर्गमूल\n∛x - घनमूल\nउदाहरण: 2^3 = 8, √16 = 4, ∛27 = 3',
+        'sci_constants': 'π (पाई) ≈ 3.14159, e (यूलर संख्या) ≈ 2.71828। गणितीय गणनाओं में उपयोगी।',
+        'sci_factorial': '! **(फैक्टोरियल):** n! = n × (n-1) × (n-2) × ... × 1\nउदाहरण: 5! = 5×4×3×2×1 = 120',
+        'sci_abs': '|x| **(एब्सोल्यूट वैल्यू):** किसी संख्या का धनात्मक मान। |5| = 5, |-5| = 5',
+        
+        // App Features Answers
+        'app_theme': '🎨 **थीम बदलना:** मेन्यू (☰) खोलें → Theme options में से डार्क, लाइट या ओरिजिनल चुनें।',
+        'app_sound': '🔊 **क्लिक साउंड:** मेन्यू (☰) खोलें → Sound options में से टिक, क्लिक, बीप या साइलेंट चुनें।',
+        'app_history': '📜 **हिस्ट्री एक्सपोर्ट:** हिस्ट्री पेज में जाएं। CSV, JSON, TXT या PDF में एक्सपोर्ट कर सकते हैं।',
+        'app_contact': '📞 **संपर्क:** फ़ोन: +91 98765 43210, ईमेल: fardip@example.com, वेबसाइट: https://fardipthakre.github.io/FT/',
+        'app_features': '🤖 **ऐप में कैलकुलेटर:** SIP, Step-up SIP, EMI, BMI, आयु, फैब्रिक मास्टर (GSM, मीटर, वजन, रिक्वायरमेंट), फोम डेंसिटी, फोम कंपेयर, यूनिट कन्वर्टर, साइंटिफिक कैलकुलेटर, हिस्ट्री एक्सपोर्ट।',
+        'app_share': '📤 **ऐप शेयर करना:** मेन्यू में Share App बटन पर क्लिक करें।',
+        'app_rate': '⭐ **ऐप को रेट करना:** मेन्यू में Rate this App बटन पर क्लिक करें।',
+    };
+    
+    return answers[key] || '❓ क्षमा करें, इस प्रश्न का उत्तर उपलब्ध नहीं है। कृपया कोई अन्य विकल्प चुनें।';
 }
 </script>
 </body>

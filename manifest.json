@@ -3,7 +3,7 @@
     "short_name": "FARDIP THAKRE",
     "description": "Calculator, Unit Converter, Foam Density & Fabric Master for you",
     "start_url": "index.html",
-    "display": " ",
+    "display": "standalone",
     "orientation": "portrait",
     "background_color": "#0a0e1a",
     "theme_color": "#0a0e1a",

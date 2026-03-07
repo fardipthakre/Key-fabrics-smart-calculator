@@ -352,6 +352,26 @@
             .calc-btn{padding:13px 0;font-size:1.1rem}
             .calc-result{font-size:2.2rem}
         }
+        .swap-btn {
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 1.5rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.swap-btn:active {
+    transform: rotate(180deg);
+    background: var(--accent-dim);
+    color: white;
+}
     </style>
 </head>
 <body>
@@ -375,6 +395,7 @@
         <button class="close-menu" id="closeMenu">&times;</button>
     </div>
     <div class="side-menu-items">
+    <button class="menu-item" onclick="window.location.href='advanced-tools.html'">🔧 Advanced Tools</button>
         <button class="menu-item" data-page="history">📜 History</button>
         <button class="menu-item" data-page="sip">📈 SIP Calculator</button>
         <button class="menu-item" data-page="stepup-sip">📊 Step-up SIP</button>
@@ -527,16 +548,18 @@
             <div class="form-label">Value</div>
             <input class="form-input" type="number" id="convValue" value="1" step="any">
             <div class="form-row" style="margin-top:12px">
-                <div>
-                    <div class="form-label">From</div>
-                    <select class="form-select" id="convFrom"></select>
-                </div>
-                <div style="flex:0;padding-bottom:6px;color:var(--accent);font-size:1.2rem;align-self:flex-end">&#10132;</div>
-                <div>
-                    <div class="form-label">To</div>
-                    <select class="form-select" id="convTo"></select>
-                </div>
-            </div>
+    <div>
+        <div class="form-label">From</div>
+        <select class="form-select" id="convFrom"></select>
+    </div>
+    <div style="flex:0; padding-bottom:6px; align-self:flex-end;">
+        <button class="swap-btn" onclick="swapUnits()" title="Swap Units">⇄</button>
+    </div>
+    <div>
+        <div class="form-label">To</div>
+        <select class="form-select" id="convTo"></select>
+    </div>
+</div>
             <button class="form-btn primary" onclick="doConvert()">Convert</button>
             <div class="result-box" id="convResult" style="display:none">
                 <div class="result-label">Result</div>
@@ -1820,6 +1843,14 @@ let currentTheme = localStorage.getItem('theme') || 'dark';
             const base = val * factors[from];
             result = base / factors[to];
         }
+        window.swapUnits = function() {
+    const from = document.getElementById('convFrom');
+    const to = document.getElementById('convTo');
+    const temp = from.value;
+    from.value = to.value;
+    to.value = temp;
+    doConvert(); // automatic convert after swap
+};
         const fmt = typeof result === 'number' ? (Number.isInteger(result) ? result.toString() : result.toFixed(6).replace(/\.?0+$/,'')) : result;
         document.getElementById('convResVal').textContent = fmt + (typeof result === 'number' ? ' ' + to : '');
         document.getElementById('convResDetail').textContent = val + ' ' + from + ' = ' + fmt + ' ' + to;

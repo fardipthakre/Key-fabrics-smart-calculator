@@ -3091,7 +3091,7 @@ updateActiveThemeBtn(currentTheme);
 
 if('serviceWorker' in navigator){
     window.addEventListener('load', function(){
-        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed:', err));
+        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
     });
 }
 </script>

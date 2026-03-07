@@ -1,12 +1,15 @@
-const CACHE_NAME = 'key-fabrics-v1';
+const CACHE_NAME = 'key-fabrics-v2'; // वर्शन बदलें ताकि पुराना कैश हट जाए
 
 const PRECACHE_URLS = [
-  '/',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
+  '/Key-fabrics-smart-calculator/',           // मुख्य पृष्ठ
+  '/Key-fabrics-smart-calculator/index.html',
+  '/Key-fabrics-smart-calculator/advanced-tools.html', // अगर बनाया है
+  '/Key-fabrics-smart-calculator/manifest.json',
+  '/Key-fabrics-smart-calculator/icon-192.png',
+  '/Key-fabrics-smart-calculator/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.12.0/math.min.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.12.0/math.min.js',
+  'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
 self.addEventListener('install', event => {
@@ -32,7 +35,9 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     caches.match(event.request).then(cached => {
+      // अगर कैश में मिल गया, तो पहले वह दें, फिर बैकग्राउंड में नेटवर्क से अपडेट करें
       if (cached) {
+        // नेटवर्क से फिर से फेच करके कैश अपडेट करें (अगर सफल हो)
         fetch(event.request).then(response => {
           if (response && response.status === 200) {
             caches.open(CACHE_NAME).then(cache => {
@@ -43,6 +48,7 @@ self.addEventListener('fetch', event => {
         return cached;
       }
 
+      // कैश में नहीं है तो नेटवर्क से लाएँ और कैश करें
       return fetch(event.request).then(response => {
         if (!response || response.status !== 200) {
           return response;
@@ -53,8 +59,9 @@ self.addEventListener('fetch', event => {
         });
         return response;
       }).catch(() => {
+        // अगर नेटवर्क भी फेल हो और कोई HTML पेज चाहिए तो होम पेज दें
         if (event.request.destination === 'document') {
-          return caches.match('/');
+          return caches.match('/Key-fabrics-smart-calculator/');
         }
         return new Response('Offline', { status: 503 });
       });
